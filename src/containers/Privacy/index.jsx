@@ -9,7 +9,7 @@ class Privacy extends Component {
 
     render() {
         return(
-            <div class="container backColorB brandColorA">
+            <div className="container backColorB brandColorA">
                 <h2>Privacy Policy</h2>
                 <p>Last updated: November 3, 2016</p>
                 <p>Redulo, Inc. (<strong>"We"</strong>, <strong>"Company"</strong>, or <strong>"Redulo"</strong>) operates the Redulo.com personal education website (the <strong>"Website"</strong>), applications (the

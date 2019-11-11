@@ -11,25 +11,25 @@ class About extends Component {
     render() {
         return (
             <div className="About">
-                <div class="container backColorB brandColorA">
-                    <div class="row">
-	                <div class="col-sm-offset-1 col-sm-10 col-xs-12">
+                <div className="container backColorB brandColorA">
+                    <div className="row">
+	                <div className="col-sm-offset-1 col-sm-10 col-xs-12">
 	                    <h2><b>About Redulo</b></h2>
-	                    <div class="col-xs-12">
+	                    <div className="col-xs-12">
 	                        <p>At Redulo we're revolutionizing education to make it affordable, fun, and flexible. However, we don't compromise in helping students achieve their careers and personal goals. If there is something we aren't doing that will help you achieve your goals, then just let us know!</p>
 	                    </div>
 	                    <h3><b>What we're doing</b></h3>
-	                    <div class="col-xs-12">
+	                    <div className="col-xs-12">
 	                        <p>Through local teachers, Redulo offers classes in many classes year-round and near you. Skills taught are often in high demand and can open the door to your next opportunity. A lot of our classes are also taken just for fun or to learn something interesting. We are proud that the teachers we work with offer exciting and innovative courses. At Redulo, our mantra is that the students and teachers are in the class because they want to be there.</p>
 	                    </div>
 	                    <h3><b>How we're doing it</b></h3>
-	                    <div class="col-xs-12">
+	                    <div className="col-xs-12">
 	                        <p>By taking care of all of the administrative tasks for each class, teachers are free to teach and students are free to learn. We ensure that classes have ample space and the resources to make a great environment for learning and working.</p>
 	                    </div>
 	                </div>
                     </div>
-                    <div class="row">
-	                <div class="col-sm-offset-1 col-sm-10 col-xs-12">
+                    <div className="row">
+	                <div className="col-sm-offset-1 col-sm-10 col-xs-12">
 	                    <h3><b>FAQs</b></h3>
                             <Accordion>
                                 <Card>

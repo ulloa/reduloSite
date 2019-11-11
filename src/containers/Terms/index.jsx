@@ -9,7 +9,7 @@ class Terms extends Component {
 
     render() {
         return(
-            <div class="container backColorB brandColorA">
+            <div className="container backColorB brandColorA">
                 <h2>TERMS OF SERVICE</h2>
                 <p>Last updated: July 17, 2017</p>
                 <p>These Terms of Service (the <strong>"Terms"</strong>) govern the relationship between Redulo, Inc. (hereinafter, <strong>"Redulo"</strong>, <strong>"us"</strong>, or <strong>"we"</strong>) and you regarding your use of the Redulo.com personal education website (the <strong>"Website"</strong>), classes advertised by or through the Website (each a <strong>"Class"</strong> and collectively the <strong>"Classes"</strong>) and any other of Redulo's products or services used to facilitate your use of such services (collectively the <strong>"Service"</strong>).</p>

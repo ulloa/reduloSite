@@ -20,9 +20,36 @@ class Create extends Component {
     super(props);
     this.state = {
       currentStep: 1, // Default is Step 1
-      email: '',
-      username: '',
-      password: '', 
+      title: '',
+      image: '',
+      subject: '',
+      subsubject: '',
+      submerchant: '',
+      tagline: '',
+      workload: 0,
+      date: [new Date],
+      time: [new Date],
+      description: '',
+      price: 0,
+      location: '',
+      address: '',
+      bio: '',
+      contact: '',
+      enrolled: 0,
+      minimum: 1,
+//      approved: false,
+      teacher: '',
+      chat: '',
+      plan: '',
+      submitted: false,
+      tickets: [{
+        name: '',
+        qty: 1,
+        price: 0
+      }],	
+      goals: [{
+        name: '',
+      }]
     }
     this.handleChange = this.handleChange.bind(this);
     this._next = this._next.bind(this)
@@ -115,52 +142,53 @@ class Create extends Component {
             <Title
               currentStep={this.state.currentStep} 
               handleChange={this.handleChange}
-              email={this.state.email}
+              title={this.state.title}
             />
             <Goals
               currentStep={this.state.currentStep} 
               handleChange={this.handleChange}
-              email={this.state.email}
+              goals={this.state.goals}
             />
             <Subject
               currentStep={this.state.currentStep} 
               handleChange={this.handleChange}
-              email={this.state.email}
+              subject={this.state.subject}
             />
             <Dates
               currentStep={this.state.currentStep} 
               handleChange={this.handleChange}
-              email={this.state.email}
+              dates={this.state.dates}
             />
             <Price
               currentStep={this.state.currentStep} 
               handleChange={this.handleChange}
-              email={this.state.email}
+              price={this.state.price}
             />    
             <Image
               currentStep={this.state.currentStep} 
               handleChange={this.handleChange}
-              email={this.state.email}
+              image={this.state.image}
             />    
             <Syllabus
               currentStep={this.state.currentStep} 
               handleChange={this.handleChange}
-              email={this.state.email}
+              syllabus={this.state.syllabus}
             />    
             <Location
               currentStep={this.state.currentStep} 
               handleChange={this.handleChange}
-              email={this.state.email}
+              location={this.state.location}
             />    
             <Preview
               currentStep={this.state.currentStep} 
               handleChange={this.handleChange}
-              email={this.state.email}
+              preview={this.state}
             />    
             {this.previousButton}
             {this.nextButton}
           </form>
         </React.Fragment>
+        <p>{this.state.goals[0].name}</p>
       </div>
     )
   }

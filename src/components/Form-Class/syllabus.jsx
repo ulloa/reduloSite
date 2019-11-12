@@ -8,15 +8,15 @@ const Syllabus = (props) => {
 
   return(
     <div className="form-group">
-      <label htmlFor="email">Email address</label>
+      <label htmlFor="syllabus">Syllabus of your class</label>
       <input
         className="form-control"
-        id="email"
-        name="email"
+        id="syllabus"
+        name="syllabus"
         type="text"
-        placeholder="Enter email"
-        value={props.email} // Prop: The email input data
-        onChange={props.handleChange} // Prop: Puts data into state
+        placeholder="Enter syllaubs"
+        value={props.syllabus}
+        onChange={props.handleChange}
       />
     </div>
   );

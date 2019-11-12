@@ -8,15 +8,15 @@ const Title = (props) => {
 
   return(
     <div className="form-group">
-      <label htmlFor="email">Email address</label>
+      <label htmlFor="title">Title of your class</label>
       <input
         className="form-control"
-        id="email"
-        name="email"
+        id="title"
+        name="title"
         type="text"
-        placeholder="Enter email"
-        value={props.email} // Prop: The email input data
-        onChange={props.handleChange} // Prop: Puts data into state
+        placeholder="Enter Title"
+        value={props.title}
+        onChange={props.handleChange}
       />
     </div>
   );

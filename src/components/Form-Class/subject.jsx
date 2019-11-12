@@ -8,15 +8,15 @@ const Subject = (props) => {
   
   return(
     <div className="form-group">
-      <label htmlFor="email">Email address</label>
+      <label htmlFor="subject">Pick a category for your class</label>
       <input
         className="form-control"
-        id="email"
-        name="email"
+        id="category"
+        name="category"
         type="text"
-        placeholder="Enter email"
-        value={props.email} // Prop: The email input data
-        onChange={props.handleChange} // Prop: Puts data into state
+        placeholder="Select category"
+        value={props.category}
+        onChange={props.handleChange}
       />
     </div>
   );

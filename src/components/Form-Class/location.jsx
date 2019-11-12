@@ -8,15 +8,15 @@ const Location = (props) => {
 
   return(
     <div className="form-group">
-      <label htmlFor="email">Email address</label>
+      <label htmlFor="location">location</label>
       <input
         className="form-control"
-        id="email"
-        name="email"
+        id="location"
+        name="location"
         type="text"
-        placeholder="Enter email"
-        value={props.email} // Prop: The email input data
-        onChange={props.handleChange} // Prop: Puts data into state
+        placeholder="Enter location"
+        value={props.location}
+        onChange={props.handleChange}
       />
     </div>
   );

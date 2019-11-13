@@ -28,6 +28,10 @@ const linkStyle = {
 
 class App extends Component {
 
+  logout() {
+    localStorage.removeItem("token")
+  }
+  
   render() {
     return (
       <div className="App">
@@ -43,7 +47,8 @@ class App extends Component {
               <h1><Link to="/teach">Teach</Link></h1>
               <h1><Link to="/privacy">Privacy Policy</Link></h1>
               <h1><Link to="/terms">Terms of Use</Link></h1>
-            </header>                    
+              <Button onClick={this.logout}>Logout</Button>
+            </header>
           </Container>
           <Switch>
             <Route path="/about" component={About} />

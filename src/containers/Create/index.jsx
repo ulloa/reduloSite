@@ -58,7 +58,7 @@ class Create extends Component {
 
   // Use the submitted data to set the state
   handleChange(event) {
-    const {name, value} = event.target
+    const {name, value} = event.target;
     this.setState({
       [name]: value
     })    

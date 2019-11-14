@@ -66,7 +66,7 @@ class Create extends Component {
   
   // Trigger an alert on form submission
   handleSubmit = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     const { email, username, password } = this.state
     alert(`Your registration detail: \n 
       Email: ${email} \n 

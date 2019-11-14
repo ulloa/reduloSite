@@ -29,7 +29,8 @@ class Login extends Component {
            mode: "cors",
            headers: {
              "Accept": "application/json",
-             "Content-Type": "application/json"},
+             "Content-Type": "application/json",
+           },           
            body: JSON.stringify({"email": this.state.email, "password": this.state.password}),
           })
          .then(res => res.json())

@@ -15,6 +15,7 @@ import Home from '../Home/index.jsx';
 import Learn from '../Learn/index.jsx';
 import Login from '../Login/index.jsx';
 import Privacy from '../Privacy/index.jsx';
+import Profile from '../Profile/index.jsx';
 import Signup from '../Signup/index.jsx';
 import Teach from '../Teach/index.jsx';
 import Terms from '../Terms/index.jsx';
@@ -46,6 +47,7 @@ class App extends Component {
               <h1><Link to="/signup">Signup</Link></h1>
               <h1><Link to="/teach">Teach</Link></h1>
               <h1><Link to="/privacy">Privacy Policy</Link></h1>
+              <h1><Link to="/profile">Profile</Link></h1>
               <h1><Link to="/terms">Terms of Use</Link></h1>
               <Button onClick={this.logout}>Logout</Button>
             </header>
@@ -57,6 +59,7 @@ class App extends Component {
             <Route path="/learn" component={Learn} />
             <Route path="/login" component={Login} />
             <Route path="/privacy" component={Privacy} />
+            <Route path="/profile" component={Profile} />
             <Route path="/signup" component={Signup} />
             <Route path="/teach" component={Teach} />
             <Route path="/terms" component={Terms} />

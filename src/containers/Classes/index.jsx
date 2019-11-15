@@ -9,6 +9,27 @@ class Classes extends Component {
     super(props);
   }
 
+  componentDidMount() {
+    let token = localStorage.getItem('token');
+    fetch(`${process.env.REACT_APP_API}/courses/`,
+          {method: "GET",
+           mode: "cors",
+           headers: {
+             "Accept": "application/json",
+             "Content-Type": "application/json",
+             "Authorization": `Bearer ${token}`,
+           },
+          })
+      .then(res => res.json())
+      .then(
+        result => {
+          console.log(result);
+        },
+        error => {
+          console.log(error);
+        }
+      );
+  }
 
   render() {
     return(

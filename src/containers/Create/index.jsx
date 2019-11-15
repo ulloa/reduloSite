@@ -18,42 +18,66 @@ class Create extends Component {
   
   constructor(props) {
     super(props);
+    //this.state = props.location.state || props.course;
+    // id must exist
+    let courseId = props.location.state ? props.location.state.courseId : props.courseId;
     this.state = {
+      courseId: courseId,
       currentStep: 1, // Default is Step 1
-      title: '',
+      title: null,
       image: '',
       subject: '',
       subsubject: '',
-      submerchant: '',
       tagline: '',
       workload: 0,
-      date: [new Date],
-      time: [new Date],
-      description: '',
-      price: 0,
       location: '',
       address: '',
       bio: '',
       contact: '',
-      enrolled: 0,
-      minimum: 1,
 //      approved: false,
-      teacher: '',
       chat: '',
       plan: '',
-      submitted: false,
-      tickets: [{
-        name: '',
-        qty: 1,
-        price: 0
-      }],	
-      goals: [{
-        name: '',
-      }]
     }
     this.handleChange = this.handleChange.bind(this);
     this._next = this._next.bind(this)
     this._prev = this._prev.bind(this)
+  }
+
+  componentDidMount() {
+    // if no courseId connected, then return to a mycourses page
+    if (!this.state.courseId) {
+      this.props.history.push({
+        pathname: '/profile',
+      })
+    } else {
+      let token = localStorage.getItem('token');
+      fetch(`${process.env.REACT_APP_API}/courses/draft/${this.state.courseId}`,
+            {method: "GET",
+             mode: "cors",
+             headers: {
+               "Accept": "application/json",
+               "Content-Type": "application/json",
+               "Authorization": `Bearer ${token}`,
+             },
+            })
+        .then(res => {
+          if (res.status >= 400)
+            throw res;
+          else
+            return res.json();
+        })
+        .then(result => {
+          console.log(result);
+        })
+        .catch(errorRes => {
+          errorRes.json()
+                  .then(error => console.log(error))
+        })
+        .catch(error => {
+          console.log(error);
+        });
+
+    }
   }
 
   // Use the submitted data to set the state
@@ -188,7 +212,6 @@ class Create extends Component {
             {this.nextButton}
           </form>
         </React.Fragment>
-        <p>{this.state.goals[0].name}</p>
       </div>
     )
   }

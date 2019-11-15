@@ -30,6 +30,15 @@ class Teach extends Component {
           this.setState({
             message: result.message,
           });
+          // go to create form if successful
+          // store id of current editing class in redux.
+//          this.props.history.push('/create');
+          this.props.history.push({
+            pathname: '/create',
+            // search: '?class=id1231231', 
+            state: {courseId: result.data}
+          })
+          return;
         },
         error => {
           this.setState({

@@ -40,6 +40,7 @@ class App extends Component {
           <Container fluid='true'>
             <header>
               <h1><Link to="/">Home</Link></h1>
+              <h1><Link to="/profile">Profile</Link></h1>
               <h1><Link to="/about">About</Link></h1>
               <h1><Link to="/classes">Classes</Link></h1>
               <h1><Link to="/learn">Learn</Link></h1>
@@ -47,7 +48,6 @@ class App extends Component {
               <h1><Link to="/signup">Signup</Link></h1>
               <h1><Link to="/teach">Teach</Link></h1>
               <h1><Link to="/privacy">Privacy Policy</Link></h1>
-              <h1><Link to="/profile">Profile</Link></h1>
               <h1><Link to="/terms">Terms of Use</Link></h1>
               <Button onClick={this.logout}>Logout</Button>
             </header>

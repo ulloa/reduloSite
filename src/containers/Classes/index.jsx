@@ -7,6 +7,9 @@ class Classes extends Component {
   
   constructor(props) {
     super(props);
+    this.state = {
+      classes: [],
+    }
   }
 
   componentDidMount() {
@@ -20,15 +23,24 @@ class Classes extends Component {
              "Authorization": `Bearer ${token}`,
            },
           })
-      .then(res => res.json())
-      .then(
-        result => {
-          console.log(result);
-        },
-        error => {
-          console.log(error);
-        }
-      );
+      .then(res => {
+        if (res.status >= 400)
+          throw res;
+        else
+          return res.json();
+      })
+      .then(result => {
+        this.setState({
+          classes: result.data
+        })    
+      })
+      .catch(errorRes => {
+        errorRes.json()
+                .then(error => console.log(error))
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   render() {
@@ -66,9 +78,12 @@ class Classes extends Component {
           </Col>
         </Row>
         <Row>
-          <Card></Card>
-          <Card></Card>
-          <Card></Card>
+          {this.state.classes.map((course, i) => {
+            return (
+              <Card type="course" data={course} key={i}>
+              </Card>
+            );
+          })}
         </Row>
       </div>
     );

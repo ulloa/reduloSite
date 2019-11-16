@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Spinner from 'react-bootstrap/Spinner';
 import Card from '../../components/Card/index.jsx';
 
 import Features from '../../components/Form-Class/features.jsx';
@@ -24,21 +25,26 @@ class Create extends Component {
     this.state = {
       courseId: courseId,
       currentStep: 1, // Default is Step 1
-      title: null,
+      loaded: false,
+      title: '',
       image: '',
       subject: '',
       subsubject: '',
       tagline: '',
-      workload: 0,
+      workload: '',
       location: '',
       address: '',
       bio: '',
       contact: '',
-//      approved: false,
       chat: '',
       plan: '',
+      date: '',
+      syllabus: '',
+      goals: [{id: '', name: ''}]
     }
     this.handleChange = this.handleChange.bind(this);
+    this.addGoal = this.addGoal.bind(this);
+    this.handleGoalListChange = this.handleGoalListChange.bind(this);
     this._next = this._next.bind(this)
     this._prev = this._prev.bind(this)
   }
@@ -66,8 +72,15 @@ class Create extends Component {
           else
             return res.json();
         })
-        .then(result => {
-          console.log(result);
+        .then(result => {          
+          Object.keys(result.data).forEach((key) => {
+            this.setState({
+              [key]: result.data[key]
+            })
+          });
+          this.setState({
+            loaded: true
+          });
         })
         .catch(errorRes => {
           errorRes.json()
@@ -77,24 +90,6 @@ class Create extends Component {
           console.log(error);
         });
     }
-  }
-
-  // Use the submitted data to set the state
-  handleChange(event) {
-    const {name, value} = event.target;
-    this.setState({
-      [name]: value
-    })    
-  }
-  
-  // Trigger an alert on form submission
-  handleSubmit = (event) => {
-    event.preventDefault();
-    const { email, username, password } = this.state
-    alert(`Your registration detail: \n 
-      Email: ${email} \n 
-      Username: ${username} \n
-      Password: ${password}`)
   }
 
   _next() {
@@ -116,7 +111,7 @@ class Create extends Component {
   }
 
   // The "next" and "previous" button functions
-  get previousButton(){
+  previousButton(){
     let currentStep = this.state.currentStep;
     // If the current step is not 1, then render the "previous" button
     if(currentStep !==1){
@@ -132,11 +127,11 @@ class Create extends Component {
     return null;
   }
 
-  get nextButton(){
+  nextButton(){
     let currentStep = this.state.currentStep;
     // If the current step is not 3, then render the "next" button
     if(currentStep < 10){
-      return (
+      return (        
         <button 
           className="btn btn-primary float-right" 
           type="button" onClick={this._next}>
@@ -147,72 +142,111 @@ class Create extends Component {
     // ...else render nothing
     return null;
   }
+
+  // Use the submitted data to set the state
+  handleChange(event) {
+    const {name, value} = event.target;
+    this.setState({
+      [name]: value
+    })    
+  }
+  
+  // Trigger an alert on form submission
+  handleSubmit = (event) => {
+    event.preventDefault();
+    const { email, username, password } = this.state
+    alert(`Your registration detail: \n 
+      Email: ${email} \n 
+      Username: ${username} \n
+      Password: ${password}`)
+  }
+
+  addGoal(e) {
+    let goals = this.state.goals.slice();
+    goals.push({name: ''});
+    this.setState({goals: goals});
+  }
+
+  handleGoalListChange(event, index) {
+    let goals = this.state.goals.slice();
+    goals[index].name = event.target.value;
+    this.setState({goals: goals});
+  }
   
   render() {
-    return(
-      <div className="Create">
-        <React.Fragment>
-          <h1>A Wizard Form!</h1>
-          <p>Step {this.state.currentStep} </p> 
-          
-          <form onSubmit={this.handleSubmit}>
-            
-            <Features
-              currentStep={this.state.currentStep} 
-              handleChange={this.handleChange}
-              email={this.state.email}
-            />
-            <Title
-              currentStep={this.state.currentStep} 
-              handleChange={this.handleChange}
-              title={this.state.title}
-            />
-            <Goals
-              currentStep={this.state.currentStep} 
-              handleChange={this.handleChange}
-              goals={this.state.goals}
-            />
-            <Subject
-              currentStep={this.state.currentStep} 
-              handleChange={this.handleChange}
-              subject={this.state.subject}
-            />
-            <Dates
-              currentStep={this.state.currentStep} 
-              handleChange={this.handleChange}
-              dates={this.state.dates}
-            />
-            <Price
-              currentStep={this.state.currentStep} 
-              handleChange={this.handleChange}
-              price={this.state.price}
-            />    
-            <Image
-              currentStep={this.state.currentStep} 
-              handleChange={this.handleChange}
-              image={this.state.image}
-            />    
-            <Syllabus
-              currentStep={this.state.currentStep} 
-              handleChange={this.handleChange}
-              syllabus={this.state.syllabus}
-            />    
-            <Location
-              currentStep={this.state.currentStep} 
-              handleChange={this.handleChange}
-              location={this.state.location}
-            />    
-            <Preview
-              currentStep={this.state.currentStep} 
-              handleChange={this.handleChange}
-              preview={this.state}
-            />    
-            {this.previousButton}
-            {this.nextButton}
-          </form>
-        </React.Fragment>
-      </div>
-    )
+    if (this.state.loaded) {
+      return(
+        <div className="Create">
+          <React.Fragment>
+            <h1>A Wizard Form!</h1>
+            <p>Step {this.state.currentStep} </p> 
+            <form onSubmit={this.handleSubmit}>            
+              <Features
+                currentStep={this.state.currentStep} 
+                handleChange={this.handleChange}
+              />
+              <Title
+                currentStep={this.state.currentStep} 
+                handleChange={this.handleChange}
+                title={this.state.title}
+              />
+              <Goals
+                currentStep={this.state.currentStep} 
+                handleChange={this.handleChange}
+                goals={this.state.goals}
+                addGoal={this.addGoal}
+                handleGoalListChange={this.handleGoalListChange}
+              />
+              <Subject
+                currentStep={this.state.currentStep} 
+                handleChange={this.handleChange}
+                subject={this.state.subject}
+              />
+              <Dates
+                currentStep={this.state.currentStep} 
+                handleChange={this.handleChange}
+                dates={this.state.date}
+              />
+              <Price
+                currentStep={this.state.currentStep} 
+                handleChange={this.handleChange}
+                price={this.state.price}
+              />    
+              <Image
+                currentStep={this.state.currentStep} 
+                handleChange={this.handleChange}
+                image={this.state.image}
+              />    
+              <Syllabus
+                currentStep={this.state.currentStep} 
+                handleChange={this.handleChange}
+                syllabus={this.state.syllabus}
+              />    
+              <Location
+                currentStep={this.state.currentStep} 
+                handleChange={this.handleChange}
+                location={this.state.location}
+              />    
+              <Preview
+                currentStep={this.state.currentStep} 
+                handleChange={this.handleChange}
+                preview={this.state}
+              />    
+              {this.previousButton()}
+              {this.nextButton()}
+            </form>
+          </React.Fragment>
+        </div>
+      );
+    } else {
+      return (
+        <div className="Create">
+          <React.Fragment>
+            <Spinner animation="grow" variant="warning" />
+          </React.Fragment>
+        </div>
+      );
+    }
   }
 }
 

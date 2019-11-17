@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import DayPicker, { DateUtils } from 'react-day-picker';
+import 'react-day-picker/lib/style.css';
 
 const Dates = (props) => {
 
@@ -6,20 +8,15 @@ const Dates = (props) => {
     return null
   }
 
-  return(
-    <div className="form-group">
-      <label htmlFor="dates">Dates</label>
-      <input
-        className="form-control"
-        id="dates"
-        name="dates"
-        type="text"
-        placeholder="Enter date of your class"
-        value={props.dates}
-        onChange={props.handleChange}
+  return (
+    <div>
+      <DayPicker
+        selectedDays={props.dates}
+        onDayClick={props.handleDateChange}
       />
     </div>
   );
+  
 }
 
 export default Dates;

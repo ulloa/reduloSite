@@ -3,6 +3,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Spinner from 'react-bootstrap/Spinner';
 import Card from '../../components/Card/index.jsx';
+import DayPicker, { DateUtils } from 'react-day-picker';
 
 import Features from '../../components/Form-Class/features.jsx';
 import Title from '../../components/Form-Class/title.jsx';
@@ -45,6 +46,7 @@ class Create extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.addGoal = this.addGoal.bind(this);
     this.handleGoalListChange = this.handleGoalListChange.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
     this._next = this._next.bind(this)
     this._prev = this._prev.bind(this)
   }
@@ -72,11 +74,16 @@ class Create extends Component {
           else
             return res.json();
         })
-        .then(result => {          
+        .then(result => {
           Object.keys(result.data).forEach((key) => {
-            this.setState({
-              [key]: result.data[key]
-            })
+            if (key == 'date') {
+              let formattedDates = result.data.date.map(date => new Date(date));
+              this.setState({date: formattedDates});
+            } else {
+              this.setState({
+                [key]: result.data[key]
+              })
+            }
           });
           this.setState({
             loaded: true
@@ -172,6 +179,20 @@ class Create extends Component {
     goals[index].name = event.target.value;
     this.setState({goals: goals});
   }
+
+
+  handleDateChange(day, { selected }) {
+    let selectedDays = this.state.date;
+    if (selected) {
+      const selectedIndex = selectedDays.findIndex(selectedDay =>
+        DateUtils.isSameDay(selectedDay, day)
+      );
+      selectedDays.splice(selectedIndex, 1);
+    } else {
+      selectedDays.push(day);
+    }
+    this.setState({date: selectedDays});
+  }  
   
   render() {
     if (this.state.loaded) {
@@ -206,6 +227,7 @@ class Create extends Component {
                 currentStep={this.state.currentStep} 
                 handleChange={this.handleChange}
                 dates={this.state.date}
+                handleDateChange={this.handleDateChange}
               />
               <Price
                 currentStep={this.state.currentStep} 

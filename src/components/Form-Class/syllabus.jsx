@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 const Syllabus = (props) => {
 
@@ -9,14 +11,12 @@ const Syllabus = (props) => {
   return(
     <div className="form-group">
       <label htmlFor="syllabus">Syllabus of your class</label>
-      <input
-        className="form-control"
-        id="syllabus"
-        name="syllabus"
-        type="text"
-        placeholder="Enter syllaubs"
-        value={props.syllabus}
-        onChange={props.handleChange}
+      <Editor
+        editorState={props.editorState}
+        toolbarClassName="toolbarClassName"
+        wrapperClassName="wrapperClassName"
+        editorClassName="editorClassName"
+        onEditorStateChange={(editorState) => props.handleChange({target: {name: 'editorState', value: editorState}})}
       />
     </div>
   );

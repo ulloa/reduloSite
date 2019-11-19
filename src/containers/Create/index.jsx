@@ -3,8 +3,13 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Spinner from 'react-bootstrap/Spinner';
 import Card from '../../components/Card/index.jsx';
+
+// utilty and conversion tools
 import DayPicker, { DateUtils } from 'react-day-picker';
 import {geocodeByAddress, getLatLng} from 'react-places-autocomplete';
+import { EditorState, convertToRaw, ContentState } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
 
 import Features from '../../components/Form-Class/features.jsx';
 import Title from '../../components/Form-Class/title.jsx';
@@ -28,6 +33,7 @@ class Create extends Component {
       courseId: courseId,
       currentStep: 1, // Default is Step 1
       loaded: false,
+      editorState: null,
       title: '',
       image: '',
       subject: '',
@@ -53,6 +59,8 @@ class Create extends Component {
   }
 
   componentDidMount() {
+    const editorState = EditorState.createEmpty();
+    this.setState({editorState});
     // if no courseId connected, then return to a mycourses page
     if (!this.state.courseId) {
       this.props.history.push({
@@ -80,12 +88,22 @@ class Create extends Component {
             if (key == 'date') {
               let formattedDates = result.data.date.map(date => new Date(date));
               this.setState({date: formattedDates});
+            } else if (key == 'syllabus') {
+              const html = result.data.syllabus;
+              const contentBlock = htmlToDraft(html);
+              if (contentBlock) {
+                const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+                const editorState = EditorState.createWithContent(contentState);
+                this.state = {
+                  editorState,
+                };
+              }
             } else {
               this.setState({
                 [key]: result.data[key]
               });
 
-              const googleMapScript = document.createElement('script')
+              const googleMapScript = document.createElement('script');
               googleMapScript.src = `https://maps.googleapis.com/maps/api/js?key=${"AIzaSyC6FEc3sgamXkwxDxcBGCtF9W6kU8CXRW0"}&libraries=places`;
               window.document.body.appendChild(googleMapScript);              
             }
@@ -256,6 +274,7 @@ class Create extends Component {
                 currentStep={this.state.currentStep} 
                 handleChange={this.handleChange}
                 syllabus={this.state.syllabus}
+                editorState={this.state.editorState}              
               />    
               <Location
                 currentStep={this.state.currentStep} 

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PlacesAutocomplete from 'react-places-autocomplete';
 
 const Location = (props) => {
 
@@ -7,18 +8,44 @@ const Location = (props) => {
   }
 
   return(
-    <div className="form-group">
-      <label htmlFor="location">location</label>
-      <input
-        className="form-control"
-        id="location"
-        name="location"
-        type="text"
-        placeholder="Enter location"
-        value={props.location}
-        onChange={props.handleChange}
-      />
-    </div>
+    <PlacesAutocomplete
+      value={props.location}
+      onChange={value => props.handleChange({target: {name: 'location', value: value}})}
+      onSelect={props.handleSelect}
+    >
+      {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+        <div>
+          <input
+            {...getInputProps({
+              placeholder: 'Search Places ...',
+              className: 'location-search-input',
+            })}
+          />
+          <div className="autocomplete-dropdown-container">
+            {loading && <div>Loading...</div>}
+            {suggestions.map(suggestion => {
+              const className = suggestion.active
+                              ? 'suggestion-item--active'
+                              : 'suggestion-item';
+              // inline style for demonstration purpose
+              const style = suggestion.active
+                          ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                          : { backgroundColor: '#ffffff', cursor: 'pointer' };
+              return (
+                <div
+                  {...getSuggestionItemProps(suggestion, {
+                    className,
+                    style,
+                  })}
+                >
+                  <span>{suggestion.description}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </PlacesAutocomplete>
   );
 }
 

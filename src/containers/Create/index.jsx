@@ -4,6 +4,7 @@ import Col from 'react-bootstrap/Col';
 import Spinner from 'react-bootstrap/Spinner';
 import Card from '../../components/Card/index.jsx';
 import DayPicker, { DateUtils } from 'react-day-picker';
+import {geocodeByAddress, getLatLng} from 'react-places-autocomplete';
 
 import Features from '../../components/Form-Class/features.jsx';
 import Title from '../../components/Form-Class/title.jsx';
@@ -82,7 +83,11 @@ class Create extends Component {
             } else {
               this.setState({
                 [key]: result.data[key]
-              })
+              });
+
+              const googleMapScript = document.createElement('script')
+              googleMapScript.src = `https://maps.googleapis.com/maps/api/js?key=${"AIzaSyC6FEc3sgamXkwxDxcBGCtF9W6kU8CXRW0"}&libraries=places`;
+              window.document.body.appendChild(googleMapScript);              
             }
           });
           this.setState({
@@ -155,7 +160,15 @@ class Create extends Component {
     const {name, value} = event.target;
     this.setState({
       [name]: value
-    })    
+    });
+  }
+
+  handleSelect(address) {
+    // have the option of doing something with the geocode here
+    geocodeByAddress(address)
+      .then(results => getLatLng(results[0]))
+      .then(latLng => console.log('Success', latLng))
+      .catch(error => console.error('Error', error));
   }
   
   // Trigger an alert on form submission
@@ -248,6 +261,7 @@ class Create extends Component {
                 currentStep={this.state.currentStep} 
                 handleChange={this.handleChange}
                 location={this.state.location}
+                handleSelect={this.handleSelect}
               />    
               <Preview
                 currentStep={this.state.currentStep} 

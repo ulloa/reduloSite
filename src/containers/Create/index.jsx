@@ -140,10 +140,8 @@ class Create extends Component {
     })
   }
 
-  // The "next" and "previous" button functions
   previousButton(){
     let currentStep = this.state.currentStep;
-    // If the current step is not 1, then render the "previous" button
     if(currentStep !==1){
       return (
         <button 
@@ -153,13 +151,11 @@ class Create extends Component {
         </button>
       )
     }
-    // ...else return nothing
     return null;
   }
 
   nextButton(){
     let currentStep = this.state.currentStep;
-    // If the current step is not 3, then render the "next" button
     if(currentStep < 10){
       return (        
         <button 
@@ -169,10 +165,20 @@ class Create extends Component {
         </button>        
       )
     }
-    // ...else render nothing
     return null;
   }
 
+  saveButton(){
+    let currentStep = this.state.currentStep;
+    return (
+      <button 
+        className="btn btn-secondary" 
+        type="button" onClick={this.handleSubmit}>
+        Save
+      </button>
+    )
+  }
+  
   // Use the submitted data to set the state
   handleChange(event) {
     const {name, value} = event.target;
@@ -192,11 +198,39 @@ class Create extends Component {
   // Trigger an alert on form submission
   handleSubmit = (event) => {
     event.preventDefault();
-    const { email, username, password } = this.state
-    alert(`Your registration detail: \n 
-      Email: ${email} \n 
-      Username: ${username} \n
-      Password: ${password}`)
+    const syllabus = draftToHtml(this.state.editorState.getCurrentContent());
+    let token = localStorage.getItem('token');
+    this.setState({syllabus});
+    fetch(`${process.env.REACT_APP_API}/courses/edit/${this.state.courseId}`,
+          {method: "POST",
+           mode: "cors",
+           headers: {
+             "Accept": "application/json",
+             "Content-Type": "application/json",
+             "Authorization": `Bearer ${token}`,
+           },
+           body: JSON.stringify(this.state, (key, val) => {
+             if (key != 'editorState')
+               return val;
+           })
+          })
+      .then(res => {
+        if (res.status >= 400)
+          throw res;
+        else
+          return res.json();
+      })
+      .then(result => {
+        console.log(result);
+      })
+      .catch(errorRes => {
+        errorRes.json()
+                .then(error => console.log(error))
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
   }
 
   addGoal(e) {
@@ -232,7 +266,7 @@ class Create extends Component {
           <React.Fragment>
             <h1>A Wizard Form!</h1>
             <p>Step {this.state.currentStep} </p> 
-            <form onSubmit={this.handleSubmit}>            
+            <div>              
               <Features
                 currentStep={this.state.currentStep} 
                 handleChange={this.handleChange}
@@ -289,7 +323,8 @@ class Create extends Component {
               />    
               {this.previousButton()}
               {this.nextButton()}
-            </form>
+            </div>
+            {this.saveButton()}
           </React.Fragment>
         </div>
       );

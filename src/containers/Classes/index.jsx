@@ -10,6 +10,7 @@ class Classes extends Component {
     this.state = {
       classes: [],
     }
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -43,6 +44,14 @@ class Classes extends Component {
       });
   }
 
+  handleClick(id) {
+    this.props.history.push({
+      pathname: '/create',
+      // search: '?class=id1231231', 
+      state: {courseId: id}
+    });
+  }
+  
   render() {
     return(
       <div className="Classes">
@@ -80,7 +89,11 @@ class Classes extends Component {
         <Row>
           {this.state.classes.map((course, i) => {
             return (
-              <Card type="course" data={course} key={i}>
+              <Card
+                type="course"
+                data={course}
+                key={i}
+                handleClick={this.handleClick}>>
               </Card>
             );
           })}

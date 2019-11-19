@@ -9,6 +9,7 @@ class Profile extends Component {
       name: '',
       classes: [],
     }
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -29,7 +30,6 @@ class Profile extends Component {
           return res.json();
       })
       .then(result => {
-        console.log(result.data.teacher);
         this.setState({
           name: result.data.local.name,
           classes: result.data.teacher
@@ -43,7 +43,15 @@ class Profile extends Component {
         console.log(error);
       });
 
-  }  
+  }
+
+  handleClick(id) {
+    this.props.history.push({
+      pathname: '/create',
+      // search: '?class=id1231231', 
+      state: {courseId: id}
+    });
+  }
   
   render() {
     return(
@@ -51,7 +59,11 @@ class Profile extends Component {
         <p>{this.state.name}</p>
         {this.state.classes.map((course, i) => {
           return (
-            <Card type="course" data={course.courseid} key={i}>
+            <Card
+              type="course"
+              data={course.courseid}
+              key={i}
+              handleClick={this.handleClick}>
             </Card>
           );
         })}
